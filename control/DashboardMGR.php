@@ -1,8 +1,5 @@
-
-
 <?php 
-
-
+//SANDIPAN CHAKRABORTY
 echo "<div id='bin_details'></div>";
 
 ?>

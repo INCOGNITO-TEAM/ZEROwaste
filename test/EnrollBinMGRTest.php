@@ -1,5 +1,5 @@
 <?php
-
+//SUJIT DAS
 Class EnrollBinMGR{
       public $con;  
       public function __construct()  
@@ -15,15 +15,29 @@ Class EnrollBinMGR{
            }
       } 
 
-
+      
+      public function getBinDetails($table_name,$key,$value)  
+            {  
+                 $array = array();  
+                 $query = "SELECT bin_id,ward_id,ward_email,lat,lon,graph_vol,graph_gas,capacity,municipality_id FROM ".$table_name." WHERE ".$key." = '".$value."' ";  
+              //    echo '<h1>'.$query.'</h1>';
+                 $result = mysqli_query($this->con, $query);  
+                 while($row = mysqli_fetch_assoc($result))  
+                 {  
+                      array_push($array,$row['bin_id']); 
+                 }  
+                 return $array;  
+                 
+      }  
+      
 
 public function checkBinInfo($bid,$wid,$wm,$lat,$lon,$gv,$gg,$cap,$mid){
    $sql = "INSERT INTO  `garbage_bin` (bin_id,ward_id,ward_email,municipality_id,lat,lon,graph_vol,graph_gas,capacity)values ('$bid','$wid','$wm','$mid','$lat','$lon','$gv','$gg','$cap');";
     
    $sql .= "UPDATE municipality SET used_graph_no=used_graph_no + 2 WHERE municipality_id='$mid'";
    mysqli_multi_query($this->con, $sql);
-$ar = array("SujitBINTEST2021","202128","SujitWARDMAIL@MAIL.COM","20.21","20.21","60","40","100","SujitMUNICIPALITY2021");
-return $ar;
+/*$ar = array("SujitBINTEST2021","202128","SujitWARDMAIL@MAIL.COM","20.21","20.21","60","40","100","SujitMUNICIPALITY202");
+return $ar;*/
 }
 
 }
@@ -38,9 +52,11 @@ class EnrollBinMGRTest extends \PHPUnit\Framework\TestCase{
      $gv=60;
      $gg=40; 
      $cap=100;
-     $mid = "SujitMUNICIPALITY2021";
-     $result=$enroll->checkBinInfo($bid,$wid,$wm,$lat,$lon,$gv,$gg,$cap,$mid);
-     $temp = array("SujitBINTEST2021","202128","SujitWARDMAIL@MAIL.COM","20.21","20.21","60","40","100","SujitMUNICIPALITY2021");
+     $mid = "SujitMUNICIPALITY202";
+     $enroll->checkBinInfo($bid,$wid,$wm,$lat,$lon,$gv,$gg,$cap,$mid);
+     $result=$enroll->getBinDetails('garbage_bin','municipality_id','SujitMUNICIPALITY202');
+     //$temp = array("SujitBINTEST2021","202128","SujitWARDMAIL@MAIL.COM",20.21,20.21,"60","40","100","SujitMUNICIPALITY202");
+     $temp=array("SujitBINTEST2021");
      $this->assertEquals($temp,$result);
      }
 }

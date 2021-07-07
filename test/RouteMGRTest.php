@@ -1,4 +1,5 @@
 <?php
+//SUJIT DAS
 class GenerateRoute 
 {
 public function maximaizedGarbageCollectionBinList($W, &$wt, $n)
@@ -48,7 +49,7 @@ public function maximaizedGarbageCollectionBinList($W, &$wt, $n)
 	return $result;
 }
 }
-class GenerateRouteMGRTest extends \PHPUnit\Framework\TestCase{
+class RouteMGRTest extends \PHPUnit\Framework\TestCase{
     public function test(){
         $getRoute = new GenerateRoute;
         $wt=array(10,10,25);
