@@ -31,6 +31,10 @@ const char* password = "9851793634";
 const char* topicid = "608d472fe0626";
 const char* wkey = "608d472fe0637";
 
+const int thresoldValueSensor=80;
+const int thresoldValueButton=20;
+const int maxSensorValue=100;
+const int minSensorValue=100;
 /// plugio instantiniate
 plugio p =plugio();
 HTTPClient p2, p3, p4;
@@ -49,7 +53,7 @@ void setup() {
   pinMode(Gas_01, INPUT);
   pinMode(Gas_02, INPUT);
   pinMode(Gas_03, INPUT);
- 
+  
   pinMode(trigPin1, OUTPUT);
   pinMode(echoPin1, INPUT);
   pinMode(trigPin2, OUTPUT);
@@ -133,7 +137,7 @@ Serial.println("Touch value 2: "+String(TR2,DEC));
 TR3=touchRead(15);
 Serial.println("Touch value 3: "+String(TR3,DEC));
 
-    if(MU1<=100 && MU2<=100 && MU3<=100 && MU1>=0 && MU2>=0 && MU3>=0)
+    if(MU1<=maxSensorValue && MU2<=maxSensorValue && MU3<=maxSensorValue && MU1>=minSensorValue && MU2>=minSensorValue && MU3>=minSensorValue)
   {
     Serial.println(p.plug_n_plot_write(topicid,wkey,1,MU1));
     Serial.println(p.plug_n_plot_write(topicid,wkey,2,MG1));
@@ -143,20 +147,20 @@ Serial.println("Touch value 3: "+String(TR3,DEC));
 
     Serial.println(p.plug_n_plot_write(topicid,wkey,5,MU3));
     Serial.println(p.plug_n_plot_write(topicid,wkey,6,MG3));
-   
-    if(MU1>=60)
+    
+    if(MU1>=thresoldValueSensor)
   {
-   
+    
     String api_as01="http://zerowaste.iotics.net/alertupdater.php?bid=BY2021M01S01&status=1";
     p3.begin(api_as01);
     int code2=p3.GET();
     Serial.println("Hit for garbage 1 outbound");
     Serial.println(code2);
     p3.end();
-       
+        
   }
  
-  if(MG1>=60)
+  if(MG1>=thresoldValueSensor)
   {
        
     String api_as02="http://zerowaste.iotics.net/alertupdater.php?bid=BY2021M01S01&status=1";
@@ -165,9 +169,9 @@ Serial.println("Touch value 3: "+String(TR3,DEC));
     Serial.println("Hit for gas 1 outbound");
     Serial.println(code4);
     p3.end();
-   
+    
   }
-  if(MU2>=80)
+  if(MU2>=thresoldValueSensor)
   {
     String api_as03="http://zerowaste.iotics.net/alertupdater.php?bid=BY2021M01S02&status=1";
     p3.begin(api_as03);
@@ -175,9 +179,9 @@ Serial.println("Touch value 3: "+String(TR3,DEC));
     Serial.println("Hit for garbage 2 outbound");
     Serial.println(code6);
     p3.end();
-   
+    
   }
-  if(MG2>=60)
+  if(MG2>=thresoldValueSensor)
   {
     String api_as04="http://zerowaste.iotics.net/alertupdater.php?bid=BY2021M01S02&status=1";
     p3.begin(api_as04);
@@ -185,10 +189,10 @@ Serial.println("Touch value 3: "+String(TR3,DEC));
     Serial.println("Hit for gas 2 outbound");
     Serial.println(code8);
     p3.end();
-   
+    
    }
 
-     if(MU3>=60)
+     if(MU3>=thresoldValueSensor)
   {
     String api_as05="http://zerowaste.iotics.net/alertupdater.php?bid=BY2021M01S03&status=1";
     p3.begin(api_as05);
@@ -197,7 +201,7 @@ Serial.println("Touch value 3: "+String(TR3,DEC));
     Serial.println(code10);
     p3.end();
   }
-  if(MG3>=60)
+  if(MG3>=thresoldValueSensor)
   {
     String api_as06="http://zerowaste.iotics.net/alertupdater.php?bid=BY2021M01S03&status=1";
     p3.begin(api_as06);
@@ -207,7 +211,7 @@ Serial.println("Touch value 3: "+String(TR3,DEC));
     p3.end();
    
   }
-   if(TR1<20)
+   if(TR1<thresoldValueButton)
    {
     String api_as07="http://zerowaste.iotics.net/alertupdater.php?bid=BY2021M01S01&status=1";
     p3.begin(api_as07);
@@ -216,7 +220,7 @@ Serial.println("Touch value 3: "+String(TR3,DEC));
     Serial.println(code14);
     p3.end();
    }
-   if(TR2<20)
+   if(TR2<thresoldValueButton)
   {
     String api_as08="http://zerowaste.iotics.net/alertupdater.php?bid=BY2021M01S02&status=1";
     p3.begin(api_as08);
@@ -225,9 +229,9 @@ Serial.println("Touch value 3: "+String(TR3,DEC));
     Serial.println(code16);
     p3.end();
   }
-  if(TR3<20)
+  if(TR3<thresoldValueButton)
   {
-   
+    
     String api_as09="http://zerowaste.iotics.net/alertupdater.php?bid=BY2021M01S03&status=1";    
     p3.begin(api_as09);    
     int code18=p3.GET();
@@ -235,22 +239,22 @@ Serial.println("Touch value 3: "+String(TR3,DEC));
     Serial.println(code18);
     p3.end();
    
-  }
+  } 
    
-    if(MU1<60 && MG1<60 && MU2<80 && MG2<60 && MU3<60 && MG3<60 && TR1>=20 && TR2>=20 && TR3>=20)
+    if(MU1<thresoldValueSensor && MG1<thresoldValueSensor && MU2<thresoldValueSensor && MG2<thresoldValueSensor && MU3<thresoldValueSensor && MG3<thresoldValueSensor && TR1>=thresoldValueButton && TR2>=thresoldValueButton && TR3>=thresoldValueButton)
   {
      
     String api_as010="http://zerowaste.iotics.net/alertupdater.php?bid=BY2021M01S01&status=0";
-   
+    
     String api_as011="http://zerowaste.iotics.net/alertupdater.php?bid=BY2021M01S02&status=0";
-   
+    
     String api_as012="http://zerowaste.iotics.net/alertupdater.php?bid=BY2021M01S03&status=0";
     p2.begin(api_as010);
-    Serial.println("Off the 1st bin");
+    Serial.println("Off the 1st bin"); 
     p3.begin(api_as011);
-    Serial.println("Off the 2nd bin");
+    Serial.println("Off the 2nd bin"); 
     p4.begin(api_as012);
-    Serial.println("Off the 3rd bin");
+    Serial.println("Off the 3rd bin"); 
     int code19=p2.GET();
     int code20=p3.GET();
     int code21=p4.GET();
