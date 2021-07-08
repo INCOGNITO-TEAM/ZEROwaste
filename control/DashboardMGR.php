@@ -1,5 +1,5 @@
 <?php 
-//SANDIPAN CHAKRABORTY
+//Contributed By -> SANDIPAN CHAKRABORTY
 echo "<div id='bin_details'></div>";
 
 ?>
